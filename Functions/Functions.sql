@@ -1,9 +1,9 @@
 USE TestDb;
-IF OBJECT_ID('dbo.GetSKUPrice') IS NOT NULL
-DROP FUNCTION dbo.GetSKUPrice;
+IF OBJECT_ID('dbo.udf_GetSKUPrice') IS NOT NULL
+DROP FUNCTION dbo.udf_GetSKUPrice;
 GO
 
-CREATE FUNCTION dbo.GetSKUPrice
+CREATE FUNCTION dbo.udf_GetSKUPrice
 (@ID_SKU AS INT) RETURNS DECIMAL(18,2)
 AS
 BEGIN
@@ -14,7 +14,7 @@ RETURN @A1
 END ;
 GO
 
-SELECT dbo.GetSKUPrice(ID) AS GetSKUPrice FROM SKU;
+SELECT dbo.udf_GetSKUPrice(ID) AS GetSKUPrice FROM SKU;
 
 
 
