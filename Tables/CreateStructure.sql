@@ -15,7 +15,7 @@ CREATE TABLE dbo.Family
 ID INT NOT NULL IDENTITY,
 CONSTRAINT PR_Family PRIMARY KEY(ID),
 SurName VARCHAR(255),
-BudgetValue INT NOT NULL
+BudgetValue INT
 );
 
 CREATE TABLE dbo.Basket
@@ -39,8 +39,8 @@ VALUES('123');
 INSERT INTO dbo.Family(SurName, BudgetValue)
 VALUES('123', 5);
 
-INSERT INTO dbo.Basket(ID_SKU, ID_Family, Quantity, Value, DiscountValue)
-VALUES(1, 1, 10, 100, 5);
+INSERT INTO dbo.Basket(ID_SKU, ID_Family, Quantity, Value)
+VALUES(1, 2, 10, 100), (1, 2, 10, 100), (1, 2, 10, 100);
 
 DELETE FROM Basket;
 DELETE FROM Family;
@@ -49,3 +49,6 @@ DELETE FROM SKU;
 SELECT * FROM dbo.SKU;
 SELECT * FROM dbo.Family;
 SELECT * FROM dbo.Basket;
+
+
+
