@@ -7,31 +7,31 @@ IF OBJECT_ID('MakeFamily') IS NOT NULL
 DROP PROCEDURE MakeFamily;
 GO
 
-CREATE PROCEDURE MakeFamily
+CREATE OR ALTER PROCEDURE MakeFamily
 (@FamilySurName  AS varchar(255)) AS
-BEGIN TRY
-UPDATE Family
-SET BudgetValue = 
-(SELECT (F.BudgetValue - SUM(B.Value)) AS Budget FROM Family AS F
+IF(EXISTS (SELECT (F.BudgetValue - SUM(B.Value)) AS Budget FROM Family AS F
 JOIN Basket AS B
 ON F.ID = B.ID_Family
 WHERE F.SurName LIKE @FamilySurName
-GROUP BY F.BudgetValue) 
-END TRY
+GROUP BY F.BudgetValue))
+BEGIN 
+UPDATE Family
+SET BudgetValue = (SELECT (F.BudgetValue - SUM(B.Value)) AS Budget FROM Family AS F
+JOIN Basket AS B
+ON F.ID = B.ID_Family
+WHERE F.SurName LIKE @FamilySurName
+GROUP BY F.BudgetValue)
+END
 
-BEGIN CATCH
+ELSE
+BEGIN
 PRINT 'Такой семьи нет'
-END CATCH;
+END;
 GO
+
 
 EXEC MakeFamily '123';
 GO
 
 SELECT * FROM Family;
 GO
-
-SELECT (F.BudgetValue - SUM(B.Value)) AS Budget FROM Family AS F
-JOIN Basket AS B
-ON F.ID = B.ID_Family
-WHERE F.SurName LIKE '123'
-GROUP BY F.BudgetValue
